@@ -8,7 +8,7 @@
   "author": "ahmed.ali@aurora.dev",
   "license": "Apache2.0",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "lint:fix": "prettier --write 'src/*.ts' && tslint --fix --config tslint.json --project tsconfig.json",
     "lint": "tslint --config tslint.json --project tsconfig.json",
     "test": "mocha --exit"
@@ -22,6 +22,8 @@
     "ethereum",
     "smart-contracts",
     "hardhat",
+    "solidity",
+    "evm",
     "hardhat-plugin",
     "storage-layout"
   ],
