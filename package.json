@@ -14,7 +14,7 @@
     "test": "mocha --exit"
   },
   "files": [
-    "dist/src/",
+    "dist/",
     "src/",
     "LICENSE",
     "README.md"
