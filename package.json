@@ -14,7 +14,8 @@
     "test": "mocha --exit"
   },
   "files": [
-    "dist/",
+    "dist/src/",
+    "src/",
     "LICENSE",
     "README.md"
   ],
@@ -47,6 +48,6 @@
     "typescript": "^3.4.5"
   },
   "peerDependencies": {
-    "hardhat": "^2.0.3"
+    "hardhat": "^2.0.3" 
   }
 }
