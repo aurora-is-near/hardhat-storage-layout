@@ -1,6 +1,6 @@
 {
   "name": "hardhat-storage-layout",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Hardhat plugin for exporting the contract storage layout",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,6 +48,6 @@
     "typescript": "^3.4.5"
   },
   "peerDependencies": {
-    "hardhat": "^2.0.3" 
+    "hardhat": "^2.0.3"
   }
 }
