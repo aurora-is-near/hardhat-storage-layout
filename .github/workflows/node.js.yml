@@ -25,7 +25,10 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm i
-    - run: npm lint:fix
-    - run: npm build
+        registry-url: 'https://registry.npmjs.org'
+    - run: yarn
+    - run: yarn lint:fix
+    - run: yarn build
+    - run: yarn publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
