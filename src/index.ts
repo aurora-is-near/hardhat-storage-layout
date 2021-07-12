@@ -1,5 +1,5 @@
-import { TASK_COMPILE } from "hardhat/builtin-tasks/task-names";
-import { extendConfig, extendEnvironment, subtask } from "hardhat/config";
+import { TASK_CHECK } from "hardhat/builtin-tasks/task-names";
+import { extendConfig, extendEnvironment, task } from "hardhat/config";
 import { lazyObject } from "hardhat/plugins";
 import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 import path from "path";
@@ -9,7 +9,7 @@ import "./type-extensions";
 
 export const PluginName = "hardhat-storage-layout";
 
-subtask(TASK_COMPILE).setAction(async (args, hre, runSuper) => {
+task(TASK_CHECK).setAction(async (args, hre, runSuper) => {
   await hre.storageLayout.export();
   await runSuper(args);
 });
