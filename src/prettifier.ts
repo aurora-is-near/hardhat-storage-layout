@@ -10,7 +10,7 @@ export class Prettify {
   }
 
   public get(): Row[] {
-      return this.table;
+    return this.table;
   }
 
   public tabulate() {
@@ -23,8 +23,8 @@ export class Prettify {
           { name: "state_variable", alignment: "left" },
           { name: "storage_slot", alignment: "center" },
           { name: "offset", alignment: "center" },
-          { name: "type", alignment: "left" },
-        ],
+          { name: "type", alignment: "left" }
+        ]
       });
 
       try {
