@@ -37,7 +37,11 @@ export class StorageLayout {
       for (const artifactPath of await this.env.artifacts.getBuildInfoPaths()) {
         const artifact: Buffer = fs.readFileSync(artifactPath);
         const artifactJsonABI = JSON.parse(artifact.toString());
-        if (!artifactJsonABI.output.contracts[sourceName][contractName]) {
+        try {
+          if (!artifactJsonABI.output.contracts[sourceName][contractName]) {
+            continue;
+          }
+        } catch (e) {
           continue;
         }
 
@@ -45,10 +49,6 @@ export class StorageLayout {
         for (const stateVariable of artifactJsonABI.output.contracts[
           sourceName
         ][contractName].storageLayout.storage) {
-          //   if (!stateVariable.length) {
-          //     continue;
-          //   }
-
           contract.stateVariables.push({
             name: stateVariable.label,
             slot: stateVariable.slot,
@@ -57,27 +57,6 @@ export class StorageLayout {
           });
         }
         data.contracts.push(contract);
-
-        // logger(
-        //   artifactJsonABI.output.contracts[sourceName][contractName]
-        //     .storageLayout.storage
-        // );
-
-        /**
-         * Example
-         * data = [
-         *       { name: contractName,
-         *         stateVariables: [
-         *          {
-         *              name: stateVariable
-         *              slot: 0,
-         *              offset" 0,
-         *              type: t_mapping(t_address,t_uint256)'
-         *            }
-         *      ]
-         * ]
-         */
-
         // TODO: export the storage layout to the ./storageLayout/output.md
       }
     }
