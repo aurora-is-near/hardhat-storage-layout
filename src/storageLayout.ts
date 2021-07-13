@@ -3,11 +3,9 @@ import { HardhatPluginError } from "hardhat/plugins";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import path from "path";
 
+import { Prettify } from "./prettifier";
 import "./type-extensions";
-
-const logger = (message: any) => {
-  console.log(`[StorageLayout] `, message);
-};
+import { Row, Table } from "./types";
 
 export class StorageLayout {
   public env: HardhatRuntimeEnvironment;
@@ -28,6 +26,8 @@ export class StorageLayout {
       fs.mkdirSync(outputDirectory);
     }
 
+    const data: Table = { contracts: [] };
+
     for (const fullName of await this.env.artifacts.getAllFullyQualifiedNames()) {
       const {
         sourceName,
@@ -40,12 +40,48 @@ export class StorageLayout {
         if (!artifactJsonABI.output.contracts[sourceName][contractName]) {
           continue;
         }
-        logger(
-          artifactJsonABI.output.contracts[sourceName][contractName]
-            .storageLayout.storage
-        );
+
+        const contract: Row = { name: contractName, stateVariables: [] };
+        for (const stateVariable of artifactJsonABI.output.contracts[
+          sourceName
+        ][contractName].storageLayout.storage) {
+          //   if (!stateVariable.length) {
+          //     continue;
+          //   }
+
+          contract.stateVariables.push({
+            name: stateVariable.name,
+            slot: stateVariable.slot,
+            offset: stateVariable.offset,
+            type: stateVariable.type
+          });
+        }
+        data.contracts.push(contract);
+
+        // logger(
+        //   artifactJsonABI.output.contracts[sourceName][contractName]
+        //     .storageLayout.storage
+        // );
+
+        /**
+         * Example
+         * data = [
+         *       { name: contractName,
+         *         stateVariables: [
+         *          {
+         *              name: stateVariable
+         *              slot: 0,
+         *              offset" 0,
+         *              type: t_mapping(t_address,t_uint256)'
+         *            }
+         *      ]
+         * ]
+         */
+
         // TODO: export the storage layout to the ./storageLayout/output.md
       }
     }
+    const prettifier = new Prettify(data.contracts);
+    prettifier.tabulate();
   }
 }

@@ -49,5 +49,8 @@
   },
   "peerDependencies": {
     "hardhat": "^2.0.3"
+  },
+  "dependencies": {
+    "console-table-printer": "^2.9.0"
   }
 }
