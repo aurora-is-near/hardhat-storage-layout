@@ -17,7 +17,15 @@ export class Prettify {
     if (!this.table.length) {
       console.error("Table has empty feilds");
     } else {
-      const p = new Table();
+      const p = new Table({
+        columns: [
+          { name: "contract", alignment: "left" },
+          { name: "state_variable", alignment: "left" },
+          { name: "storage_slot", alignment: "center" },
+          { name: "offset", alignment: "center" },
+          { name: "type", alignment: "left" },
+        ],
+      });
 
       try {
         for (const contract of this.table) {
@@ -25,7 +33,7 @@ export class Prettify {
             p.addRow({
               contract: contract.name,
               state_variable: stateVariable.name,
-              slot: stateVariable.slot,
+              storage_slot: stateVariable.slot,
               offset: stateVariable.offset,
               type: stateVariable.type
             });

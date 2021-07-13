@@ -50,7 +50,7 @@ export class StorageLayout {
           //   }
 
           contract.stateVariables.push({
-            name: stateVariable.name,
+            name: stateVariable.label,
             slot: stateVariable.slot,
             offset: stateVariable.offset,
             type: stateVariable.type
