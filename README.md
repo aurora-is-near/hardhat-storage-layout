@@ -1,4 +1,7 @@
 # hardhat-storage-layout
+
+<a href="https://www.npmjs.com/package/hardhat-storage-layout"><img alt="hardhat-storage-layout Version" src="https://img.shields.io/npm/v/hardhat-storage-layout"></a>
+
 Generate Ethereum smart contract storage layout with Hardhat. This plugin saves time and avoids human error when a developer tries to update a specific `storage slot` in a remote solidity contract. For more info about the storage layout, please refer to the [official solidity documentation](https://docs.soliditylang.org/en/v0.6.8/internals/layout_in_storage.html).
 
 
