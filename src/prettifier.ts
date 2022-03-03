@@ -15,7 +15,7 @@ export class Prettify {
 
   public tabulate() {
     if (!this.table.length) {
-      console.error("Table has empty feilds");
+      console.error("Table has empty fields");
     } else {
       const p = new Table({
         columns: [
@@ -23,7 +23,9 @@ export class Prettify {
           { name: "state_variable", alignment: "left" },
           { name: "storage_slot", alignment: "center" },
           { name: "offset", alignment: "center" },
-          { name: "type", alignment: "left" }
+          { name: "type", alignment: "left" },
+          { name: "idx", alignment: "center" },
+          { name: "artifact", alignment: "left" }
         ]
       });
 
@@ -35,7 +37,9 @@ export class Prettify {
               state_variable: stateVariable.name,
               storage_slot: stateVariable.slot,
               offset: stateVariable.offset,
-              type: stateVariable.type
+              type: stateVariable.type,
+              idx: stateVariable.idx,
+              artifact: stateVariable.artifact
             });
           }
         }

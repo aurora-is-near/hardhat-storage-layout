@@ -3,6 +3,8 @@ export interface StateVariable {
   slot: string;
   offset: number;
   type: string;
+  idx: number;
+  artifact: string;
 }
 
 export interface Row {
