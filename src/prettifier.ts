@@ -23,7 +23,8 @@ export class Prettify {
           { name: "state_variable", alignment: "left" },
           { name: "storage_slot", alignment: "center" },
           { name: "offset", alignment: "center" },
-          { name: "type", alignment: "left" }
+          { name: "type", alignment: "left" },
+          { name: "numberOfBytes", alignment: "left" }
         ]
       });
 
@@ -35,7 +36,8 @@ export class Prettify {
               state_variable: stateVariable.name,
               storage_slot: stateVariable.slot,
               offset: stateVariable.offset,
-              type: stateVariable.type
+              type: stateVariable.type,
+              numberOfBytes: stateVariable.numberOfBytes
             });
           }
         }
