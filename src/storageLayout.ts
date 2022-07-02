@@ -38,9 +38,7 @@ export class StorageLayout {
         const artifact: Buffer = fs.readFileSync(artifactPath);
         const artifactJsonABI = JSON.parse(artifact.toString());
         try {
-          if (!artifactJsonABI.output.contracts[sourceName][contractName] && 
-            !artifactJsonABI.output.contracts[sourceName][contractName].storageLayout
-            ) {
+          if (!artifactJsonABI.output.contracts[sourceName][contractName]) {
             continue;
           }
         } catch (e) {
@@ -55,7 +53,10 @@ export class StorageLayout {
             name: stateVariable.label,
             slot: stateVariable.slot,
             offset: stateVariable.offset,
-            type: stateVariable.type
+            type: stateVariable.type,
+            numberOfBytes:
+              artifactJsonABI.output.contracts[sourceName][contractName]
+                .storageLayout.types[stateVariable.type].numberOfBytes
           });
         }
         data.contracts.push(contract);
