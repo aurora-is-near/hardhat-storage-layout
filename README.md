@@ -13,7 +13,7 @@ yarn add --dev hardhat-storage-layout
 
 ## Configuration
 
-In order to use this Hardhat plugin, you should update the solidity compiler configurations in `hardhat.congig.js` as follows:
+In order to use this Hardhat plugin, you should update the solidity compiler configurations in `hardhat.config.js` as follows:
 
 ```javascript
 module.exports = {
