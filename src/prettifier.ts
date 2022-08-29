@@ -15,7 +15,7 @@ export class Prettify {
 
   public tabulate() {
     if (!this.table.length) {
-      console.error("Table has empty feilds");
+      console.error("Table has empty fields");
     } else {
       const p = new Table({
         columns: [
