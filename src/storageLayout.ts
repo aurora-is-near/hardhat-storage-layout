@@ -67,6 +67,9 @@ export class StorageLayout {
             type: stateVariable.type,
             idx: artifactJsonABI.idx,
             artifact: artifactJsonABI.source
+            numberOfBytes:
+              artifactJsonABI.output.contracts[sourceName][contractName]
+                .storageLayout.types[stateVariable.type].numberOfBytes
           });
         }
         data.contracts.push(contract);

@@ -26,6 +26,7 @@ export class Prettify {
           { name: "type", alignment: "left" },
           { name: "idx", alignment: "center" },
           { name: "artifact", alignment: "left" }
+          { name: "number_of_bytes", alignment: "center" }
         ]
       });
 
@@ -40,6 +41,7 @@ export class Prettify {
               type: stateVariable.type,
               idx: stateVariable.idx,
               artifact: stateVariable.artifact
+              numberOfBytes: stateVariable.numberOfBytes
             });
           }
         }

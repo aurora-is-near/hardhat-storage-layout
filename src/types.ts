@@ -5,6 +5,7 @@ export interface StateVariable {
   type: string;
   idx: number;
   artifact: string;
+  numberOfBytes: string;
 }
 
 export interface Row {
