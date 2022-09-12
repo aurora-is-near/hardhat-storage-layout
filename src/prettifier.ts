@@ -25,7 +25,7 @@ export class Prettify {
           { name: "offset", alignment: "center" },
           { name: "type", alignment: "left" },
           { name: "idx", alignment: "center" },
-          { name: "artifact", alignment: "left" }
+          { name: "artifact", alignment: "left" },
           { name: "number_of_bytes", alignment: "center" }
         ]
       });
@@ -40,7 +40,7 @@ export class Prettify {
               offset: stateVariable.offset,
               type: stateVariable.type,
               idx: stateVariable.idx,
-              artifact: stateVariable.artifact
+              artifact: stateVariable.artifact,
               numberOfBytes: stateVariable.numberOfBytes
             });
           }
