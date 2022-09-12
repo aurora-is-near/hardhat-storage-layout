@@ -55,7 +55,10 @@ export class StorageLayout {
             name: stateVariable.label,
             slot: stateVariable.slot,
             offset: stateVariable.offset,
-            type: stateVariable.type
+            type: stateVariable.type,
+            numberOfBytes:
+              artifactJsonABI.output.contracts[sourceName][contractName]
+                .storageLayout.types[stateVariable.type].numberOfBytes
           });
         }
         data.contracts.push(contract);
