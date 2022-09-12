@@ -19,14 +19,14 @@ export class Prettify {
     } else {
       const p = new Table({
         columns: [
-          { name: "contract", alignment: "left" },
-          { name: "state_variable", alignment: "left" },
+          { name: "contract", alignment: "center" },
+          { name: "state_variable", alignment: "center" },
           { name: "storage_slot", alignment: "center" },
           { name: "offset", alignment: "center" },
-          { name: "type", alignment: "left" },
+          { name: "type", alignment: "center" },
           { name: "idx", alignment: "center" },
-          { name: "artifact", alignment: "left" },
-          { name: "number_of_bytes", alignment: "center" }
+          { name: "artifact", alignment: "center" },
+          { name: "numberOfBytes", alignment: "center" }
         ]
       });
 
