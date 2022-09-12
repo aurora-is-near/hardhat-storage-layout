@@ -26,42 +26,54 @@ export class StorageLayout {
       fs.mkdirSync(outputDirectory);
     }
 
-    const data: Table = { contracts: [] };
+    const buildInfos = await this.env.artifacts.getBuildInfoPaths();
+    const artifactsPath = this.env.config.paths.artifacts;
+    const artifacts = buildInfos.map((source, idx) => {
+      const artifact: Buffer = fs.readFileSync(source);
+      return {
+        idx,
+        source: source.startsWith(artifactsPath)
+          ? source.slice(artifactsPath.length)
+          : source,
+        data: JSON.parse(artifact.toString())
+      };
+    });
 
+    const names: Array<{ sourceName: string; contractName: string }> = [];
     for (const fullName of await this.env.artifacts.getAllFullyQualifiedNames()) {
       const {
         sourceName,
         contractName
       } = await this.env.artifacts.readArtifact(fullName);
+      names.push({ sourceName, contractName });
+    }
+    names.sort((a, b) => a.contractName.localeCompare(b.contractName));
 
-      for (const artifactPath of await this.env.artifacts.getBuildInfoPaths()) {
-        const artifact: Buffer = fs.readFileSync(artifactPath);
-        const artifactJsonABI = JSON.parse(artifact.toString());
-        try {
-          if (!artifactJsonABI.output.contracts[sourceName][contractName] && 
-            !artifactJsonABI.output.contracts[sourceName][contractName].storageLayout
-            ) {
-            continue;
-          }
-        } catch (e) {
+    const data: Table = { contracts: [] };
+    for (const { sourceName, contractName } of names) {
+      for (const artifactJsonABI of artifacts) {
+        const storage =
+          artifactJsonABI.data.output?.contracts?.[sourceName]?.[contractName]
+            ?.storageLayout?.storage;
+        if (!storage) {
           continue;
         }
-
         const contract: Row = { name: contractName, stateVariables: [] };
-        for (const stateVariable of artifactJsonABI.output.contracts[
-          sourceName
-        ][contractName].storageLayout.storage) {
+        for (const stateVariable of storage) {
           contract.stateVariables.push({
             name: stateVariable.label,
             slot: stateVariable.slot,
             offset: stateVariable.offset,
             type: stateVariable.type,
+            idx: artifactJsonABI.idx,
+            artifact: artifactJsonABI.source,
             numberOfBytes:
-              artifactJsonABI.output.contracts[sourceName][contractName]
+              artifactJsonABI.data.output?.contracts[sourceName][contractName]
                 .storageLayout.types[stateVariable.type].numberOfBytes
           });
         }
         data.contracts.push(contract);
+
         // TODO: export the storage layout to the ./storageLayout/output.md
       }
     }

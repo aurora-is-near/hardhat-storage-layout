@@ -1,4 +1,4 @@
-import { TASK_CHECK } from "hardhat/builtin-tasks/task-names";
+import { TASK_CHECK, TASK_COMPILE } from "hardhat/builtin-tasks/task-names";
 import { extendConfig, extendEnvironment, task } from "hardhat/config";
 import { lazyObject } from "hardhat/plugins";
 import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
@@ -11,6 +11,14 @@ export const PluginName = "hardhat-storage-layout";
 
 task(TASK_CHECK).setAction(async (args, hre, runSuper) => {
   await hre.storageLayout.export();
+  await runSuper(args);
+});
+
+task(TASK_COMPILE).setAction(async function(args, hre, runSuper) {
+  for (const compiler of hre.config.solidity.compilers) {
+    compiler.settings.outputSelection["*"]["*"].push("storageLayout");
+  }
+  console.log(hre.config.solidity.compilers);
   await runSuper(args);
 });
 
