@@ -1,7 +1,8 @@
 import fs from "fs";
+import { writeFile } from "fs/promises";
 import { HardhatPluginError } from "hardhat/plugins";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import path from "path";
+import path, { join } from "path";
 
 import { Prettify } from "./prettifier";
 import "./type-extensions";
@@ -73,11 +74,14 @@ export class StorageLayout {
           });
         }
         data.contracts.push(contract);
-
-        // TODO: export the storage layout to the ./storageLayout/output.md
       }
     }
     const prettifier = new Prettify(data.contracts);
-    prettifier.tabulate();
+    // write table to a the output file
+    await writeFile(
+      join(outputDirectory, "output.md"),
+      prettifier.tabulate() as string,
+      "utf-8"
+    );
   }
 }

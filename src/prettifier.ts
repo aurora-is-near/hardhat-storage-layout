@@ -46,8 +46,10 @@ export class Prettify {
           }
         }
         p.printTable();
+        return p.render();
       } catch (e) {
         console.log(e); // TODO HRE error handler
+        return new Table().render();
       }
     }
   }
