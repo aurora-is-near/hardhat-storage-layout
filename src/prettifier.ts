@@ -15,15 +15,18 @@ export class Prettify {
 
   public tabulate() {
     if (!this.table.length) {
-      console.error("Table has empty feilds");
+      console.error("Table has empty fields");
     } else {
       const p = new Table({
         columns: [
-          { name: "contract", alignment: "left" },
-          { name: "state_variable", alignment: "left" },
+          { name: "contract", alignment: "center" },
+          { name: "state_variable", alignment: "center" },
           { name: "storage_slot", alignment: "center" },
           { name: "offset", alignment: "center" },
-          { name: "type", alignment: "left" }
+          { name: "type", alignment: "center" },
+          { name: "idx", alignment: "center" },
+          { name: "artifact", alignment: "center" },
+          { name: "numberOfBytes", alignment: "center" }
         ]
       });
 
@@ -35,7 +38,10 @@ export class Prettify {
               state_variable: stateVariable.name,
               storage_slot: stateVariable.slot,
               offset: stateVariable.offset,
-              type: stateVariable.type
+              type: stateVariable.type,
+              idx: stateVariable.idx,
+              artifact: stateVariable.artifact,
+              numberOfBytes: stateVariable.numberOfBytes
             });
           }
         }
