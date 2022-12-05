@@ -18,7 +18,6 @@ task(TASK_COMPILE).setAction(async function(args, hre, runSuper) {
   for (const compiler of hre.config.solidity.compilers) {
     compiler.settings.outputSelection["*"]["*"].push("storageLayout");
   }
-  console.log(hre.config.solidity.compilers);
   await runSuper(args);
 });
 
