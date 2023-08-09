@@ -22,11 +22,11 @@ export class Prettify {
           { name: "contract", alignment: "center" },
           { name: "state_variable", alignment: "center" },
           { name: "storage_slot", alignment: "center" },
+          { name: "numberOfBytes", alignment: "center" },
           { name: "offset", alignment: "center" },
           { name: "type", alignment: "center" },
           { name: "idx", alignment: "center" },
-          { name: "artifact", alignment: "center" },
-          { name: "numberOfBytes", alignment: "center" }
+          { name: "artifact", alignment: "center" }
         ]
       });
 
@@ -37,11 +37,11 @@ export class Prettify {
               contract: contract.name,
               state_variable: stateVariable.name,
               storage_slot: stateVariable.slot,
+              numberOfBytes: stateVariable.numberOfBytes,
               offset: stateVariable.offset,
               type: stateVariable.type,
               idx: stateVariable.idx,
-              artifact: stateVariable.artifact,
-              numberOfBytes: stateVariable.numberOfBytes
+              artifact: stateVariable.artifact
             });
           }
         }
