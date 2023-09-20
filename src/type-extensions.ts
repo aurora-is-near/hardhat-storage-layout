@@ -27,5 +27,5 @@ declare module "hardhat/types/runtime" {
 }
 
 declare module "hardhat/builtin-tasks/task-names" {
-  export const TASK_EXPORT_STORAGE_LAYOUT = "export-storage";
+  export const TASK_EXPORT_STORAGE_LAYOUT = "storage:export-file";
 }

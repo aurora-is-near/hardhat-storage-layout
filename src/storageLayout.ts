@@ -22,15 +22,19 @@ export class StorageLayout {
 
   public async exportToFile(): Promise<void> {
     const storageLayoutPath = this.env.config.paths.newStorageLayoutPath;
-    const outputDirectory = path.resolve(storageLayoutPath);
-    if (!outputDirectory.startsWith(this.env.config.paths.root)) {
+    const filePath = path.resolve(storageLayoutPath);
+    if (!filePath.startsWith(this.env.config.paths.root)) {
       throw new HardhatPluginError(
         "output directory should be inside the project directory"
       );
     }
-    if (!fs.existsSync(outputDirectory)) {
-      fs.mkdirSync(outputDirectory);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
     }
+    // Create a new file
+    fs.writeFileSync(filePath, '');
+    // Open the file in append mode
+    const fileStream = fs.createWriteStream(filePath, { flags: 'w' });
     const data = await this.getStorageLayout();
     // const sortedData = data.contracts.sort((a, b) => {
     //   if (a.name.toLowerCase() == b.name.toLowerCase()) {
@@ -43,12 +47,15 @@ export class StorageLayout {
     //   }
     //   return a.name.localeCompare(b.name);
     // });
+    const lines: string[] = []
     data.contracts.forEach((contract) => {
       contract.stateVariables.forEach((variable) => {
         const line = `${contract.name}: ${variable.name} (storage_slot: ${variable.slot}) (type: ${variable.type}) (numberOfBytes: ${variable.numberOfBytes})`
-        fs.writeFileSync(storageLayoutPath, line);
+        lines.push(line);
       })
-    })
+    });
+    fileStream.write(lines.join('\n'));
+    fileStream.end()
   }
 
   public async getStorageLayout(): Promise<Table> {

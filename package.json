@@ -1,6 +1,6 @@
 {
   "name": "@bahuy3103/hardhat-storage-layout",
-  "version": "0.1.8",
+  "version": "0.2.5",
   "description": "Hardhat plugin for exporting the contract storage layout",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
