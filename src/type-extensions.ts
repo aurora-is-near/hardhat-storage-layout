@@ -21,11 +21,6 @@ declare module "hardhat/types/runtime" {
     storageLayout: {
       export: () => Promise<void>;
       getStorageLayout: () => Promise<Table>;
-      exportToFile: () => Promise<void>;
     };
   }
-}
-
-declare module "hardhat/builtin-tasks/task-names" {
-  export const TASK_EXPORT_STORAGE_LAYOUT = "storage:export-file";
 }

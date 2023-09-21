@@ -14,48 +14,20 @@ export class StorageLayout {
     this.env = hre;
   }
   public async export(): Promise<void> {
-
-    const data = await this.getStorageLayout();
-    const prettier = new Prettify(data.contracts);
-    prettier.tabulate();
-  }
-
-  public async exportToFile(): Promise<void> {
     const storageLayoutPath = this.env.config.paths.newStorageLayoutPath;
-    const filePath = path.resolve(storageLayoutPath);
-    if (!filePath.startsWith(this.env.config.paths.root)) {
+    const outputDirectory = path.resolve(storageLayoutPath);
+    if (!outputDirectory.startsWith(this.env.config.paths.root)) {
       throw new HardhatPluginError(
         "output directory should be inside the project directory"
       );
     }
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    if (!fs.existsSync(outputDirectory)) {
+      fs.mkdirSync(outputDirectory);
     }
-    // Create a new file
-    fs.writeFileSync(filePath, '');
-    // Open the file in append mode
-    const fileStream = fs.createWriteStream(filePath, { flags: 'w' });
     const data = await this.getStorageLayout();
-    // const sortedData = data.contracts.sort((a, b) => {
-    //   if (a.name.toLowerCase() == b.name.toLowerCase()) {
-    //     a.stateVariables = a.stateVariables.sort((varX, varY) => {
-    //       if (varX.name.toLowerCase() == varY.name.toLowerCase()) {
-
-    //       }
-    //       return varX.name.localeCompare(varY.name);
-    //     })
-    //   }
-    //   return a.name.localeCompare(b.name);
-    // });
-    const lines: string[] = []
-    data.contracts.forEach((contract) => {
-      contract.stateVariables.forEach((variable) => {
-        const line = `${contract.name}: ${variable.name} (storage_slot: ${variable.slot}) (type: ${variable.type}) (numberOfBytes: ${variable.numberOfBytes})`
-        lines.push(line);
-      })
-    });
-    fileStream.write(lines.join('\n'));
-    fileStream.end()
+    const prettier = new Prettify(data.contracts);
+    prettier.tabulate();
+    // TODO: export the storage layout to the ./storageLayout/output.md
   }
 
   public async getStorageLayout(): Promise<Table> {
@@ -97,7 +69,7 @@ export class StorageLayout {
             name: stateVariable.label,
             slot: stateVariable.slot,
             offset: stateVariable.offset,
-            type: this._removeIdentifierSuffix(stateVariable.type),
+            type: stateVariable.type,
             idx: artifactJsonABI.idx,
             artifact: artifactJsonABI.source,
             numberOfBytes:
@@ -110,11 +82,4 @@ export class StorageLayout {
     }
     return data;
   }
-  private _removeIdentifierSuffix = (type: string) => {
-    const suffixIdRegex = /\d+_(storage|memory|calldata|ptr)/g; // id_memory id_storage
-    const contractRegex = /^(t_super|t_contract)\(([A-Za-z0-9_]+)\)\d+/g; // t_contract(contractName)id
-    const enumRegex = /(t_enum)\(([A-Za-z0-9_]+)\)\d+/g; // t_enum(enumName)id
-    return type.replace(suffixIdRegex, '_$1').replace(contractRegex, '$1($2)').replace(enumRegex, '$1($2)');
-  };
-
 }
