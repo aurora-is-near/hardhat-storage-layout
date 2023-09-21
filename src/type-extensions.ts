@@ -3,6 +3,7 @@
 // To extend one of Hardhat's types, you need to import the module where it has been defined, and redeclare it.
 import "hardhat/types/config";
 import "hardhat/types/runtime";
+import { Table } from "./types";
 
 declare module "hardhat/types/config" {
   export interface ProjectPathsUserConfig {
@@ -19,6 +20,7 @@ declare module "hardhat/types/runtime" {
   export interface HardhatRuntimeEnvironment {
     storageLayout: {
       export: () => Promise<void>;
+      getStorageLayout: () => Promise<Table>;
     };
   }
 }

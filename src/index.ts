@@ -14,7 +14,7 @@ task(TASK_CHECK).setAction(async (args, hre, runSuper) => {
   await runSuper(args);
 });
 
-task(TASK_COMPILE).setAction(async function(args, hre, runSuper) {
+task(TASK_COMPILE).setAction(async function (args, hre, runSuper) {
   for (const compiler of hre.config.solidity.compilers) {
     compiler.settings.outputSelection["*"]["*"].push("storageLayout");
   }

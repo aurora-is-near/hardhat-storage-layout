@@ -3,9 +3,9 @@ import { HardhatPluginError } from "hardhat/plugins";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import path from "path";
 
-import { Prettify } from "./prettifier";
 import "./type-extensions";
 import { Row, Table } from "./types";
+import { Prettify } from "./prettifier";
 
 export class StorageLayout {
   public env: HardhatRuntimeEnvironment;
@@ -13,8 +13,7 @@ export class StorageLayout {
   constructor(hre: HardhatRuntimeEnvironment) {
     this.env = hre;
   }
-
-  public async export() {
+  public async export(): Promise<void> {
     const storageLayoutPath = this.env.config.paths.newStorageLayoutPath;
     const outputDirectory = path.resolve(storageLayoutPath);
     if (!outputDirectory.startsWith(this.env.config.paths.root)) {
@@ -25,7 +24,13 @@ export class StorageLayout {
     if (!fs.existsSync(outputDirectory)) {
       fs.mkdirSync(outputDirectory);
     }
+    const data = await this.getStorageLayout();
+    const prettier = new Prettify(data.contracts);
+    prettier.tabulate();
+    // TODO: export the storage layout to the ./storageLayout/output.md
+  }
 
+  public async getStorageLayout(): Promise<Table> {
     const buildInfos = await this.env.artifacts.getBuildInfoPaths();
     const artifactsPath = this.env.config.paths.artifacts;
     const artifacts = buildInfos.map((source, idx) => {
@@ -73,11 +78,8 @@ export class StorageLayout {
           });
         }
         data.contracts.push(contract);
-
-        // TODO: export the storage layout to the ./storageLayout/output.md
       }
     }
-    const prettifier = new Prettify(data.contracts);
-    prettifier.tabulate();
+    return data;
   }
 }
